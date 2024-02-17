@@ -1,3 +1,16 @@
+const inputLibro = document.getElementById("titulo");
+const boton = document.getElementById("botonLibro");
+const librosFiltrados = document.getElementById("librosFiltrados");
+const listaLibrosDisponibles = document.getElementById("listaLibros");
+console.log(listaLibros);
+
+boton.addEventListener("click", (event) => {
+  event.preventDefault();
+  verificarDisponibilidad(inputLibro.value);
+
+  console.log(inputLibro.value);
+});
+
 const libros = [
   "Harry Potter y la piedra filosofal",
   "Cien años de soledad",
@@ -22,30 +35,28 @@ const libros = [
   "El libro de la selva",
 ];
 
-const mostrarLibros = (titulo, listaLibros) => {
-  document.write(`<h2>${titulo}</h2>`);
-  document.write(`<ul>`);
-  listaLibros.map((libro) => document.write(`<li>${libro}</li>`));
-  document.write(`</ul>`);
+const mostrarLibros = (listaLibros) => {
+  listaLibrosDisponibles.innerHTML = `
+<ul>
+    ${listaLibros.map((libro) => `<li>${libro}</li>`)}
+</ul>
+`;
 };
 
-function buscarLibro(titulo) {
-  const tituloLowerCase = titulo.toLowerCase();
-  const libroEncontrado = libros.find(
-    (libro) => libro.toLowerCase() === tituloLowerCase
-  );
-  if (libroEncontrado) {
-    return `El libro "${libroEncontrado}" está disponible en la biblioteca`;
-  } else {
-    return `El libro "${titulo}" no está disponible en la biblioteca`;
-  }
+function mostrarLibrosFiltrados(arrayLibrosFiltrados) {
+  librosFiltrados.innerHTML = `
+  <ul>
+    ${arrayLibrosFiltrados.filter((libro) => libro !== "," && `<li>${libro}</li>`)}
+  </ul>
+  `;
 }
 
 function verificarDisponibilidad(titulo) {
   const tituloLowerCase = titulo.toLowerCase();
-  const libroEncontrado = libros.find(
-    (libro) => libro.toLowerCase() === tituloLowerCase
+  const libroEncontrado = libros.filter((libro) =>
+    libro.toLowerCase().includes(tituloLowerCase)
   );
+  mostrarLibrosFiltrados(libroEncontrado);
   if (libroEncontrado) {
     return `El libro "${libroEncontrado}" está disponible para préstamo`;
   } else {
@@ -53,9 +64,6 @@ function verificarDisponibilidad(titulo) {
   }
 }
 
-const ingresarLibro = prompt("Ingrese un libro para saber si está disponible");
+// const ingresarLibro = prompt("Ingrese un libro para saber si está disponible");
 
-document.write(`<h3>Disponibilidad</h3>`);
-document.write(`<p>${verificarDisponibilidad(ingresarLibro)}</p>`);
-
-mostrarLibros("Lista de libros", libros);
+mostrarLibros(libros);
