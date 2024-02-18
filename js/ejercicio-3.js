@@ -65,6 +65,4 @@ function verificarDisponibilidad(titulo) {
   mostrarLibrosFiltrados(libroEncontrado);
 }
 
-// const ingresarLibro = prompt("Ingrese un libro para saber si está disponible");
-
 mostrarLibros(libros);
