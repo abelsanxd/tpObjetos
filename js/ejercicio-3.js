@@ -2,7 +2,8 @@ const inputLibro = document.getElementById("titulo");
 const boton = document.getElementById("botonLibro");
 const librosFiltrados = document.getElementById("librosFiltrados");
 const listaLibrosDisponibles = document.getElementById("listaLibros");
-console.log(listaLibros);
+
+boton.classList.add("btn-danger", "btn");
 
 boton.addEventListener("click", (event) => {
   event.preventDefault();
@@ -38,7 +39,7 @@ const libros = [
 const mostrarLibros = (listaLibros) => {
   listaLibrosDisponibles.innerHTML = `
 <ul>
-    ${listaLibros.map((libro) => `<li>${libro}</li>`)}
+    ${listaLibros.map((libro) => `<li>${libro}</li>`).join("")}
 </ul>
 `;
 };
@@ -46,7 +47,7 @@ const mostrarLibros = (listaLibros) => {
 function mostrarLibrosFiltrados(arrayLibrosFiltrados) {
   librosFiltrados.innerHTML = `
   <ul>
-    ${arrayLibrosFiltrados.filter((libro) => libro !== "," && `<li>${libro}</li>`)}
+    ${arrayLibrosFiltrados.map((libro) => `<li>${libro}</li>`).join("")}
   </ul>
   `;
 }
@@ -56,12 +57,12 @@ function verificarDisponibilidad(titulo) {
   const libroEncontrado = libros.filter((libro) =>
     libro.toLowerCase().includes(tituloLowerCase)
   );
-  mostrarLibrosFiltrados(libroEncontrado);
-  if (libroEncontrado) {
-    return `El libro "${libroEncontrado}" está disponible para préstamo`;
-  } else {
-    return `El libro "${titulo}" no está en la biblioteca`;
+
+  if (libroEncontrado.length === 0) {
+    return alert(`El libro "${titulo}" no está disponible para préstamo`);
   }
+
+  mostrarLibrosFiltrados(libroEncontrado);
 }
 
 // const ingresarLibro = prompt("Ingrese un libro para saber si está disponible");
